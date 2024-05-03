@@ -1,7 +1,187 @@
 ﻿@page "/"
+@using System.Net.Http.Headers
+@using Newtonsoft.Json
+@using System.Text
+@using System.Net.Http
+@using System.Threading.Tasks
+
 
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+
+@code {
+
+    private City[]? cities;
+
+
+    public class City
+    {
+            public string Name { get; set; }
+            public string Country { get; set; }
+            public int Population { get; set; }
+            public string Language { get; set; }
+            public double Area { get; set; }
+            public string RulingRace { get; set; } // Die herrschende Rasse in der Stadt
+            public string GovernmentType { get; set; } // Die Art der Regierung (z.B. Monarchie, Demokratie, etc.)
+            public string NotableLandmarks { get; set; } // Bemerkenswerte Wahrzeichen oder Orte in der Stadt
+            public string History { get; set; } // Ein kurzer Überblick über die Geschichte der Stadt
+            public string Economy { get; set; } // Ein Überblick über die Wirtschaft der Stadt (z.B. Handel, Landwirtschaft, etc.)
+            public NPC[] NPCs { get; set; } // Eine Liste von NPCs, die in der Stadt leben
+    }
+
+    public class NPC
+    {
+    public string Name { get; set; }
+    public string Race { get; set; } // Human, Elf, Dwarf, etc.
+    public string Gender { get; set; }
+    public int Age { get; set; }
+    public string Occupation { get; set; } // Fighter, Wizard, Blacksmith, etc.
+    public string Alignment { get; set; } // Lawful Good, Chaotic Evil, etc.
+    public string Description { get; set; } // Physical appearance, personality traits, etc.
+    public string Background { get; set; } // Backstory, life events, etc.
+    public List<string> Traits { get; set; } // Personality traits, ideals, bonds, flaws, etc.
+    public List<string> Skills { get; set; } // Proficient skills, abilities, etc.
+    public List<string> Inventory { get; set; } // Items carried or owned by the NPC
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Simulate asynchronous loading to demonstrate streaming rendering
+        await Task.Delay(500);
+
+        var NPCs = new NPC[]
+        {
+            new NPC
+            {
+                Name = "John",
+                Race = "Human",
+                Gender = "Male",
+                Age = 30,
+                Occupation = "Fighter",
+                Alignment = "Lawful Good",
+                Description = "Tall and muscular, with a scar across his left cheek.",
+                Background = "Former soldier, seeking redemption for past actions.",
+                Traits = new List<string> { "Brave", "Loyal", "Protective" },
+                Skills = new List<string> { "Swordsmanship", "Leadership" },
+                Inventory = new List<string> { "Longsword", "Chainmail Armor", "Healing Potion" }
+            },
+            new NPC
+            {
+                Name = "Elena",
+                Race = "Elf",
+                Gender = "Female",
+                Age = 120,
+                Occupation = "Wizard",
+                Alignment = "Neutral Good",
+                Description = "Graceful and elegant, with long silver hair and piercing blue eyes.",
+                Background = "Scholar and researcher of ancient magic.",
+                Traits = new List<string> { "Curious", "Wise", "Reserved" },
+                Skills = new List<string> { "Arcane Magic", "Alchemy" },
+                Inventory = new List<string> { "Spellbook", "Staff", "Potion of Invisibility" }
+            }
+        };
+
+        cities = new City[]
+        {
+        new City
+        {
+        Name = "Waterdeep",
+        Country = "Sword Coast",
+        Population = 200000,
+        Language = "Common",
+        Area = 150.3,
+        RulingRace = "Humans",
+        GovernmentType = "Council of Lords",
+        NotableLandmarks = "Castle Waterdeep, Yawning Portal Inn",
+        History = "Waterdeep is an ancient city built on the site of the great city of Netheril. It has a rich and complex history.",
+        Economy = "Thriving trade hub, known for its bustling markets and diverse economy.",
+        NPCs = NPCs   
+        }
+        };
+    }
+
+
+    public async Task<string> GenerateImage(string promtstring)
+    {
+        using (HttpClient client = new HttpClient())
+        {
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer $OPENAI_API_KEY");
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var data = new
+            {
+                model = "dall-e-3",
+                prompt = promtstring,
+                n = 1,
+                size = "1024x1024"
+            };
+
+            var json = JsonConvert.SerializeObject(data);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync("https://api.openai.com/v1/images/generations", content);
+            var result = await response.Content.ReadAsStringAsync();
+
+            return result;
+        }
+    }
+
+    @code {
+        string AssembleCityPrompt(City city)
+        {
+            return $"Name: {city.Name}, Country: {city.Country}, Population: {city.Population}, Language: {city.Language}, Area: {city.Area}, Ruling Race: {city.RulingRace}, Government Type: {city.GovernmentType}, Notable Landmarks: {city.NotableLandmarks}, History: {city.History}, Economy: {city.Economy}, NPCs: {string.Join(", ", city.NPCs.Select(AssembleNPCPrompt))};
+        }
+
+        string AssembleNPCPrompt(NPC npc)
+        {
+            return $"Name: {npc.Name}, Race: {npc.Race}, Gender: {npc.Gender}, Age: {npc.Age}, Occupation: {npc.Occupation}, Alignment: {npc.Alignment}, Description: {npc.Description}, Background: {npc.Background}, Traits: {string.Join(", ", npc.Traits)}, Skills: {string.Join(", ", npc.Skills)}, Inventory: {string.Join(", ", npc.Inventory)}";
+        }
+    }
+
+
+}
+
+
+
+    @foreach (var city in cities ?? Array.Empty<City>())
+    {
+        <div class="card">
+            <div class="card-header">
+                @city.Name
+            </div>
+            <div class="card-body">
+                <p>Country: @city.Country</p>
+                <p>Population: @city.Population</p>
+                <p>Language: @city.Language</p>
+                <p>Area: @city.Area km²</p>
+                <p>Ruling Race: @city.RulingRace</p>
+                <p>Government Type: @city.GovernmentType</p>
+                <p>Notable Landmarks: @city.NotableLandmarks</p>
+                <p>History: @city.History</p>
+                <p>Economy: @city.Economy</p>
+            </div>
+            <div class="card-footer">
+                <h5>NPCs:</h5>
+                @foreach (var npc in city.NPCs)
+                {
+                    <div class="npc-card">
+                        <h6>@npc.Name</h6>
+                        <p>Race: @npc.Race</p>
+                        <p>Gender: @npc.Gender</p>
+                        <p>Age: @npc.Age</p>
+                        <p>Occupation: @npc.Occupation</p>
+                        <p>Alignment: @npc.Alignment</p>
+                        <p>Description: @npc.Description</p>
+                        <p>Background: @npc.Background</p>
+                        <p>Traits: @string.Join(", ", npc.Traits)</p>
+                        <p>Skills: @string.Join(", ", npc.Skills)</p>
+                        <p>Inventory: @string.Join(", ", npc.Inventory)</p>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+

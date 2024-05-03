@@ -28,3 +28,6 @@
 /workspaces/storycrafter/obj/Debug/net8.0/storycrafter.pdb
 /workspaces/storycrafter/obj/Debug/net8.0/storycrafter.genruntimeconfig.cache
 /workspaces/storycrafter/obj/Debug/net8.0/ref/storycrafter.dll
+/workspaces/storycrafter/bin/Debug/net8.0/Newtonsoft.Json.dll
+/workspaces/storycrafter/obj/Debug/net8.0/storycrafter.csproj.AssemblyReference.cache
+/workspaces/storycrafter/obj/Debug/net8.0/storycra.7CBDD5EE.Up2Date

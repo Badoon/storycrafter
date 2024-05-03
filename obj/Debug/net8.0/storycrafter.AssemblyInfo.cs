@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("storycrafter")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4b5967166fa12c170699ed714575b017d7400368")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7992efad3e037fcecb4cd18009444d88053b03cb")]
 [assembly: System.Reflection.AssemblyProductAttribute("storycrafter")]
 [assembly: System.Reflection.AssemblyTitleAttribute("storycrafter")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
