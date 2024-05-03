@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "/workspaces/storycrafter/obj/Debug/net8.0/scopedcss/projectbundle/storycrafter.bundle.scp.css",
+      "PackagePath": "staticwebassets/storycrafter.bundle.scp.css"
+    },
+    {
+      "Id": "/workspaces/storycrafter/wwwroot/app.css",
+      "PackagePath": "staticwebassets/app.css"
+    },
+    {
+      "Id": "/workspaces/storycrafter/wwwroot/bootstrap/bootstrap.min.css",
+      "PackagePath": "staticwebassets/bootstrap/bootstrap.min.css"
+    },
+    {
+      "Id": "/workspaces/storycrafter/wwwroot/bootstrap/bootstrap.min.css.map",
+      "PackagePath": "staticwebassets/bootstrap/bootstrap.min.css.map"
+    },
+    {
+      "Id": "/workspaces/storycrafter/wwwroot/favicon.png",
+      "PackagePath": "staticwebassets/favicon.png"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.storycrafter.props",
+      "PackagePath": "build\\storycrafter.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.storycrafter.props",
+      "PackagePath": "buildMultiTargeting\\storycrafter.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.storycrafter.props",
+      "PackagePath": "buildTransitive\\storycrafter.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.storycrafter.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
